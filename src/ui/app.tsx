@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useDebugValue, useEffect, useState } from 'react'
 import { styled } from '@mui/material/styles'
 import {
   Box, Drawer as MuiDrawer, AppBar as MuiAppBar,
   Toolbar, Typography, IconButton, Divider,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
-import { styledMixin, transition } from './utils'
+import { styledMixin, transition, useBoolean } from './utils'
 import LeftList from './left-list'
 import Right from './right'
+import { pluginWrapper } from '../lib/context'
 
 const drawerWidth = 240;
 
@@ -36,13 +37,16 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar
 }))
 
-const plugins = []
+export default pluginWrapper(({ ctx }) => {
+  const [plugins, setPlugins] = useState([])
 
-export default function MiniDrawer() {
-  const [open, setOpen] = (() => {
-    const [state, setState] = React.useState(false)
-    return [state, () => setState(state => !state)]
-  })()
+  const [open, setOpen] = useBoolean()
+
+  useEffect(() => {
+    const listener = plugins => setPlugins([...plugins])
+    ctx.on('console/plugin-update', listener)
+    return () => { ctx.off('console/plugin-remove', listener) }
+  }, [setPlugins])
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -65,4 +69,4 @@ export default function MiniDrawer() {
       </Box>
     </Box>
   )
-}
+})

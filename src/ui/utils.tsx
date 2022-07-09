@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 
 type Props<T> = T extends React.ComponentType<infer P> ? P : never
@@ -9,5 +9,10 @@ export const transition = (...props: string[]) =>
 export const styledMixin =
   <P,>(component: React.ComponentType<P>) => <M,>() =>
     styled<React.ComponentType<P & M>>(component as any)
+
+export const useBoolean = (initialState = false) => {
+  const [state, setState] = useState(initialState)
+  return [state, () => setState(state => !state)] as const
+}
 
 export { Props }
