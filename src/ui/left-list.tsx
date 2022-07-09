@@ -6,13 +6,12 @@ import {
 import { matchRoutes, useLocation, useNavigate } from 'react-router-dom'
 import { ConsolePlugin } from '../lib'
 
-export default ({ plugins, open }: {
+export default function LeftList({ plugins, open }: {
   plugins: ConsolePlugin[]
   open: boolean
-}) => {
+}) {
   const nav = useNavigate()
   const location = useLocation()
-  const route = matchRoutes([], location)
   const items = plugins.map(plugin => (
     <ListItem disablePadding key={plugin.id || plugin.name}>
       <ListItemButton

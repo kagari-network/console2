@@ -3,9 +3,9 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { ConsolePlugin } from '../lib'
 import { PluginComponent } from '../lib/context'
 
-export default ({ plugins }: {
+export default function Right({ plugins }: {
   plugins: ConsolePlugin[]
-}) => {
+}) {
   const routes = plugins.map(plugin => (
     <Route key={plugin.id || plugin.name} path={plugin.path} element={
       <PluginComponent>{plugin.content}</PluginComponent>

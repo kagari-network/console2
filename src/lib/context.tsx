@@ -15,7 +15,7 @@ const usePluginContext = () => {
 
 const pluginWrapper = <T,>(InputComponent: React.ComponentType<T & {
   ctx: Context
-}>) => (props: T) => {
+}>) => function PluginWrapper(props: T) {
   const ctx = usePluginContext()
   return !ctx ? null : (
     <ConsoleContext.Provider value={ctx}>
@@ -35,7 +35,7 @@ const PluginComponent = <P extends PropsWithChildren>(props: P) => {
 
 const contextWrapper = <T,>(InputComponent: React.ComponentType<T & {
   ctx: Context
-}>) => (props: T) => {
+}>) => function ContextWrapper(props: T) {
   const ctx = useContext(ConsoleContext)
   return <InputComponent {...props} ctx={ctx} />
 }

@@ -8,7 +8,7 @@ export const transition = (...props: string[]) =>
 
 export const styledMixin =
   <P,>(component: React.ComponentType<P>) => <M,>() =>
-    styled<React.ComponentType<P & M>>(component as any)
+    styled(component as React.ComponentType<P & M>)
 
 export const useBoolean = (initialState = false) => {
   const [state, setState] = useState(initialState)
