@@ -9,21 +9,13 @@ import internal from '../internal'
 const ctx = new Cordis.Context()
 ctx.plugin(internal)
 
-const CtxApp = () => {
-  useEffect(() => {
-    // start ctx next tick
-    setTimeout(() => ctx.start(), 0)
-  }, [])
-  return <App />
-}
-
 const app = document.getElementById('app')
 ReactDOM
   .createRoot(app)
   .render(
     <BrowserRouter>
       <ConsoleContext.Provider value={ctx}>
-        <CtxApp />
+        <App />
       </ConsoleContext.Provider>
     </BrowserRouter>
   )

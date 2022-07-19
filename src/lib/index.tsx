@@ -6,7 +6,9 @@ interface ConsolePlugin {
   icon: React.ReactNode
   path: string
   content: React.ReactNode
-  main?: boolean
+  order?: number
 }
+
+export * from './context'
 
 export { ConsolePlugin }

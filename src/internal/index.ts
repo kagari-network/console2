@@ -16,9 +16,9 @@ export class Console extends Service {
   plugins: ConsolePlugin[] = []
 
   plugin(plugin: ConsolePlugin): () => void {
+    this.ctx.emit('console/plugin-add', plugin)
     this.plugins.push(plugin)
     this.ctx.emit('console/plugin-update', this.plugins)
-    this.ctx.emit('console/plugin-add', plugin)
     return () => {
       const index = this.plugins.indexOf(plugin)
       if (index === -1) return

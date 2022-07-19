@@ -9,6 +9,7 @@ import { styledMixin, transition, useBoolean } from './utils'
 import LeftList from './left-list'
 import Right from './right'
 import { pluginWrapper } from '../lib/context'
+import { ConsolePlugin } from '../lib'
 
 const drawerWidth = 240;
 
@@ -37,16 +38,25 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar
 }))
 
+const sortPlugins = (plugins: ConsolePlugin[]) =>
+  plugins.map(plugin => ({ order: Infinity, ...plugin })).sort((a, b) => a.order - b.order)
+
 export default pluginWrapper(({ ctx }) => {
   const [plugins, setPlugins] = useState([])
 
   const [open, setOpen] = useBoolean()
 
   useEffect(() => {
-    const listener = plugins => setPlugins([...plugins])
+    setTimeout(() => ctx.start(), 0)
+    return () => { ctx.stop() }
+  }, [ctx])
+
+  useEffect(() => {
+    // sortPlugins will create new array so Object.is returns false
+    const listener = plugins => setPlugins(sortPlugins(plugins))
     ctx.on('console/plugin-update', listener)
     return () => { ctx.off('console/plugin-remove', listener) }
-  }, [setPlugins])
+  }, [ctx, setPlugins])
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -65,7 +75,7 @@ export default pluginWrapper(({ ctx }) => {
       </Drawer>
       <Box sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Right plugins={plugins}/>
+        <Right plugins={plugins} />
       </Box>
     </Box>
   )

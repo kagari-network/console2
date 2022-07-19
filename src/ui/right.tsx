@@ -11,9 +11,8 @@ export default function Right({ plugins }: {
       <PluginComponent>{plugin.content}</PluginComponent>
     } />
   ))
-  const main = plugins.filter(plugin => plugin.main)[0]
-  if (main) routes.push(
-    <Route key="__console_main" path="*" element={<Navigate to={main.path} replace />} />
+  if (plugins.length !== 0) routes.push(
+    <Route key="__console_main" path="*" element={<Navigate to={plugins[0].path} replace />} />
   )
   return <Routes>{routes}</Routes>
 }
