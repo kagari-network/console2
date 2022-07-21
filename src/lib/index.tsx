@@ -7,6 +7,7 @@ interface ConsolePlugin {
   path: string
   content: React.ReactNode
   order?: number
+  using?: string[]
 }
 
 export * from './context'

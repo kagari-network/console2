@@ -41,7 +41,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 const sortPlugins = (plugins: ConsolePlugin[]) =>
   plugins.map(plugin => ({ order: Infinity, ...plugin })).sort((a, b) => a.order - b.order)
 
-export default pluginWrapper(({ ctx }) => {
+export default pluginWrapper(null, ({ ctx }) => {
   const [plugins, setPlugins] = useState([])
 
   const [open, setOpen] = useBoolean()

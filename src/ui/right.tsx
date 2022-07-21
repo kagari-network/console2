@@ -8,7 +8,7 @@ export default function Right({ plugins }: {
 }) {
   const routes = plugins.map(plugin => (
     <Route key={plugin.id || plugin.name} path={plugin.path} element={
-      <PluginComponent>{plugin.content}</PluginComponent>
+      <PluginComponent using={plugin.using}>{plugin.content}</PluginComponent>
     } />
   ))
   if (plugins.length !== 0) routes.push(

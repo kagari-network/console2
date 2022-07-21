@@ -1,22 +1,40 @@
-import { Context } from 'cordis'
+import { Context, Fork } from 'cordis'
 import React, { PropsWithChildren, useContext, useEffect, useState } from 'react'
 
 const ConsoleContext = React.createContext<Context>(null)
 
-const usePluginContext = () => {
-  const ctx = useContext(ConsoleContext)
-  const [newCtx, setNewCtx] = useState<Context>(null)
+const usePluginContext = (using: string[]) => {
+  const oldCtx = useContext(ConsoleContext)
+  const [[ctx, fork], setCtxAndFork] = useState<[Context, Fork]>([null, null])
   useEffect(() => {
-    const fork = ctx.plugin(ctx => setNewCtx(ctx))
-    return () => { fork.dispose() }
-  }, [ctx])
-  return newCtx
+    let newCtx: Context
+    let newFork: Fork
+    if (fork) {
+      newCtx = null
+      fork.restart()
+      return
+    }
+    const setState = () => {
+      if (newCtx && newFork) setCtxAndFork([newCtx, newFork])
+    }
+    const plugin = {
+      using,
+      apply(ctx: Context) {
+        newCtx = ctx
+        setState()
+      },
+    }
+    newFork = oldCtx.plugin(plugin)
+    setState()
+    return () => { fork?.dispose() }
+  }, [oldCtx, fork])
+  return ctx
 }
 
-const pluginWrapper = <T,>(InputComponent: React.ComponentType<T & {
+const pluginWrapper = <T,>(using: string[], InputComponent: React.ComponentType<T & {
   ctx: Context
 }>) => function PluginWrapper(props: T) {
-  const ctx = usePluginContext()
+  const ctx = usePluginContext(using)
   return !ctx ? null : (
     <ConsoleContext.Provider value={ctx}>
       <InputComponent {...props} ctx={ctx} />
@@ -24,8 +42,10 @@ const pluginWrapper = <T,>(InputComponent: React.ComponentType<T & {
   )
 }
 
-const PluginComponent = <P extends PropsWithChildren>(props: P) => {
-  const ctx = usePluginContext()
+const PluginComponent = <P extends PropsWithChildren & {
+  using?: string[]
+}>(props: P) => {
+  const ctx = usePluginContext(props.using)
   return !ctx ? null : (
     <ConsoleContext.Provider value={ctx}>
       {props.children}
