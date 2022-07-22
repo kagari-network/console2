@@ -10,6 +10,7 @@
         "jsx": "react",
         "module": "UMD",
         "moduleResolution": "node",
+        "emitDeclarationOnly": true,
         "declaration": true,
         "esModuleInterop": true
     },

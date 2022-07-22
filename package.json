@@ -1,29 +1,10 @@
 {
-  "name": "console2",
-  "version": "1.0.0",
-  "browserslist": "> 0.5%, last 2 versions, not dead",
-  "license": "MIT",
-  "source": "src/index.html",
-  "scripts": {
-    "start": "parcel",
-    "build": "parcel build"
-  },
-  "dependencies": {
-    "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
-    "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.8.7",
-    "cordis": "^2.0.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.3.0",
-    "use-immer": "^0.7.0"
-  },
-  "devDependencies": {
-    "@types/react": "^18.0.15",
-    "@types/react-dom": "^18.0.6",
-    "parcel": "^2.6.2",
-    "process": "^0.11.10",
-    "typescript": "^4.7.4"
-  }
+    "name": "console2",
+    "private": true,
+    "scripts": {
+        "start": "yarn workspace @console2/core start"
+    },
+    "workspaces": [
+        "packages/*"
+    ]
 }
