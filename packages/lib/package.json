@@ -1,0 +1,24 @@
+{
+  "name": "@console2/lib",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "yarn compile && yarn tsc",
+    "compile": "esbuild --bundle src/index.ts --outdir=lib"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.15",
+    "esbuild": "^0.14.49",
+    "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "cordis": "^2.0.2"
+  },
+  "dependencies": {
+    "react": "^18.2.0"
+  }
+}

@@ -1,3 +1,4 @@
+import { Page, pluginWrapper } from '@console2/lib'
 import React, { useEffect, useState } from 'react'
 import { styled } from '@mui/material/styles'
 import {
@@ -8,8 +9,6 @@ import MenuIcon from '@mui/icons-material/Menu'
 import { styledMixin, transition, useBoolean } from './utils'
 import LeftList from './left-list'
 import Right from './right'
-import { pluginWrapper } from '../lib/context'
-import { Page } from '../lib'
 import { useImmer } from 'use-immer'
 
 const drawerWidth = 240;

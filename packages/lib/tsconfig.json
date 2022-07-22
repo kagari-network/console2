@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "ES5",
+        "target": "ESNext",
         "lib": [
             "DOM",
             "DOM.Iterable",
@@ -10,8 +10,10 @@
         "jsx": "react",
         "module": "UMD",
         "moduleResolution": "node",
+        "emitDeclarationOnly": true,
         "declaration": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "outDir": "lib"
     },
     "include": [
         "src/**/*"

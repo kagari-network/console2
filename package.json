@@ -2,7 +2,9 @@
     "name": "console2",
     "private": true,
     "scripts": {
-        "start": "yarn workspace @console2/core start"
+        "compile": "yarn workspaces run compile",
+        "build": "yarn workspaces run build",
+        "start": "yarn compile && yarn workspace @console2/console start"
     },
     "workspaces": [
         "packages/*"

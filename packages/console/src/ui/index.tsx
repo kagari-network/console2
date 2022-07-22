@@ -1,10 +1,9 @@
+import { ConsoleContext, console } from '@console2/lib'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import * as Cordis from 'cordis'
 import App from './app'
-import { ConsoleContext } from '../lib/context'
 import { BrowserRouter } from 'react-router-dom'
-import * as console from '../console'
 
 const ctx = new Cordis.Context()
 ctx.plugin(console)

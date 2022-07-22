@@ -1,5 +1,5 @@
 import { Context, Service } from 'cordis'
-import { Page } from '../lib'
+import { Page } from '..'
 
 declare module 'cordis' {
   interface Context {

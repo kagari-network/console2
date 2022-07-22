@@ -1,10 +1,10 @@
+import { Page } from '@console2/lib'
 import React from 'react'
 import {
   List, ListItem, ListItemButton,
   ListItemIcon, ListItemText
 } from '@mui/material'
 import { matchRoutes, useLocation, useNavigate } from 'react-router-dom'
-import { Page } from '../lib'
 
 export default function LeftList({ pages, open }: {
   pages: Page[]

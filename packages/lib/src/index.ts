@@ -8,4 +8,5 @@ export interface Page {
   content: ReactElement
 }
 
-export * from './context'
+export * from './ui'
+export * as console from './console'

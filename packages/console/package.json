@@ -1,14 +1,19 @@
 {
   "name": "@console2/console",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "license": "MIT",
   "source": "src/index.html",
   "bin": {
     "console": "./serve.js"
   },
+  "files": [
+    "dist",
+    "serve.js"
+  ],
   "scripts": {
     "start": "parcel",
+    "compile": ":",
     "build": "parcel build"
   },
   "dependencies": {
@@ -16,7 +21,7 @@
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.7",
-    "cordis": "^2.0.1",
+    "cordis": "^2.0.2",
     "immer": "^9.0.15",
     "koa": "^2.13.4",
     "koa-static": "^5.0.0",
@@ -24,6 +29,9 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
     "use-immer": "^0.7.0"
+  },
+  "peerDependencies": {
+    "@console2/lib": "^0.0.1"
   },
   "devDependencies": {
     "@parcel/packager-ts": "2.6.2",
