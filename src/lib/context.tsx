@@ -3,38 +3,20 @@ import React, { PropsWithChildren, useContext, useEffect, useState } from 'react
 
 const ConsoleContext = React.createContext<Context>(null)
 
-const usePluginContext = (using: string[]) => {
+const usePluginContext = () => {
   const oldCtx = useContext(ConsoleContext)
-  const [[ctx, fork], setCtxAndFork] = useState<[Context, Fork]>([null, null])
+  const [ctx, setCtx] = useState<Context>(null)
   useEffect(() => {
-    let newCtx: Context
-    let newFork: Fork
-    if (fork) {
-      newCtx = null
-      fork.restart()
-      return
-    }
-    const setState = () => {
-      if (newCtx && newFork) setCtxAndFork([newCtx, newFork])
-    }
-    const plugin = {
-      using,
-      apply(ctx: Context) {
-        newCtx = ctx
-        setState()
-      },
-    }
-    newFork = oldCtx.plugin(plugin)
-    setState()
+    const fork = oldCtx.plugin(ctx => setCtx(ctx))
     return () => { fork?.dispose() }
-  }, [oldCtx, fork])
+  }, [oldCtx])
   return ctx
 }
 
-const pluginWrapper = <T,>(using: string[], InputComponent: React.ComponentType<T & {
+const pluginWrapper = <T,>(InputComponent: React.ComponentType<T & {
   ctx: Context
 }>) => function PluginWrapper(props: T) {
-  const ctx = usePluginContext(using)
+  const ctx = usePluginContext()
   return !ctx ? null : (
     <ConsoleContext.Provider value={ctx}>
       <InputComponent {...props} ctx={ctx} />
@@ -42,10 +24,8 @@ const pluginWrapper = <T,>(using: string[], InputComponent: React.ComponentType<
   )
 }
 
-const PluginComponent = <P extends PropsWithChildren & {
-  using?: string[]
-}>(props: P) => {
-  const ctx = usePluginContext(props.using)
+const PluginComponent = <P extends PropsWithChildren>(props: P) => {
+  const ctx = usePluginContext()
   return !ctx ? null : (
     <ConsoleContext.Provider value={ctx}>
       {props.children}
@@ -60,4 +40,13 @@ const contextWrapper = <T,>(InputComponent: React.ComponentType<T & {
   return <InputComponent {...props} ctx={ctx} />
 }
 
-export { ConsoleContext, PluginComponent, pluginWrapper, contextWrapper, usePluginContext }
+const ContextComponent = <P extends PropsWithChildren>(props: P) => {
+  const ctx = useContext(ConsoleContext)
+  return (
+    <ConsoleContext.Provider value={ctx}>
+      {props.children}
+    </ConsoleContext.Provider>
+  )
+}
+
+export { ConsoleContext, PluginComponent, ContextComponent, pluginWrapper, contextWrapper, usePluginContext }

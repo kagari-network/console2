@@ -4,7 +4,7 @@ import * as Cordis from 'cordis'
 import App from './app'
 import { ConsoleContext } from '../lib/context'
 import { BrowserRouter } from 'react-router-dom'
-import internal from '../internal'
+import * as internal from '../internal'
 
 const ctx = new Cordis.Context()
 ctx.plugin(internal)
@@ -19,3 +19,5 @@ ReactDOM
       </ConsoleContext.Provider>
     </BrowserRouter>
   )
+
+ctx.start()

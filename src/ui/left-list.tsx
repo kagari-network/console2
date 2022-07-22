@@ -4,24 +4,24 @@ import {
   ListItemIcon, ListItemText
 } from '@mui/material'
 import { matchRoutes, useLocation, useNavigate } from 'react-router-dom'
-import { ConsolePlugin } from '../lib'
+import { Page } from '../lib'
 
-export default function LeftList({ plugins, open }: {
-  plugins: ConsolePlugin[]
+export default function LeftList({ pages, open }: {
+  pages: Page[]
   open: boolean
 }) {
   const nav = useNavigate()
   const location = useLocation()
-  const items = plugins.map(plugin => (
-    <ListItem disablePadding key={plugin.id || plugin.name}>
+  const items = pages.map(page => (
+    <ListItem disablePadding key={page.id || page.name}>
       <ListItemButton
         sx={{ justifyContent: open ? 'initial' : 'center' }}
-        onClick={() => nav(plugin.path)}
-        selected={!!matchRoutes([{ path: plugin.path }], location)}>
+        onClick={() => nav(page.path)}
+        selected={!!matchRoutes([{ path: page.path }], location)}>
         <ListItemIcon sx={{ mr: open ? 3 : 'auto', justifyContent: 'center' }}>
-          {plugin.icon}
+          {page.icon}
         </ListItemIcon>
-        <ListItemText sx={{ opacity: open ? 1 : 0 }}>{plugin.name}</ListItemText>
+        <ListItemText sx={{ opacity: open ? 1 : 0 }}>{page.name}</ListItemText>
       </ListItemButton>
     </ListItem>
   ))

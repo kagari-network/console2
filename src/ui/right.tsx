@@ -1,18 +1,20 @@
 import React from 'react'
+import { ReactElement } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { ConsolePlugin } from '../lib'
+import { Page } from '../lib'
 import { PluginComponent } from '../lib/context'
 
-export default function Right({ plugins }: {
-  plugins: ConsolePlugin[]
+export default function Right({ pages }: {
+  pages: Page[]
 }) {
-  const routes = plugins.map(plugin => (
-    <Route key={plugin.id || plugin.name} path={plugin.path} element={
-      <PluginComponent using={plugin.using}>{plugin.content}</PluginComponent>
+  const routes = pages.map(page => (
+    <Route key={page.id || page.name} path={page.path} element={
+      <PluginComponent>{page.content}</PluginComponent>
     } />
   ))
-  if (plugins.length !== 0) routes.push(
-    <Route key="__console_main" path="*" element={<Navigate to={plugins[0].path} replace />} />
-  )
+  const element = pages.length !== 0 ?
+    <Navigate to={pages[0].path} replace /> :
+    <></>
+  routes.push(<Route key="__console_main" path="*" element={element} />)
   return <Routes>{routes}</Routes>
 }

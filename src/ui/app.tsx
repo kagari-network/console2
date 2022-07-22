@@ -9,7 +9,7 @@ import { styledMixin, transition, useBoolean } from './utils'
 import LeftList from './left-list'
 import Right from './right'
 import { pluginWrapper } from '../lib/context'
-import { ConsolePlugin } from '../lib'
+import { Page } from '../lib'
 
 const drawerWidth = 240;
 
@@ -38,25 +38,21 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar
 }))
 
-const sortPlugins = (plugins: ConsolePlugin[]) =>
-  plugins.map(plugin => ({ order: Infinity, ...plugin })).sort((a, b) => a.order - b.order)
+const sortPages = (plugins: Page[]) =>
+  plugins.map(page => ({ order: Infinity, ...page }))
+    .sort((a, b) => a.order - b.order)
 
-export default pluginWrapper(null, ({ ctx }) => {
-  const [plugins, setPlugins] = useState([])
-
+export default pluginWrapper(({ ctx }) => {
+  const [pages, setPages] = useState([])
   const [open, setOpen] = useBoolean()
 
   useEffect(() => {
-    setTimeout(() => ctx.start(), 0)
-    return () => { ctx.stop() }
-  }, [ctx])
-
-  useEffect(() => {
     // sortPlugins will create new array so Object.is returns false
-    const listener = plugins => setPlugins(sortPlugins(plugins))
-    ctx.on('console/plugin-update', listener)
-    return () => { ctx.off('console/plugin-remove', listener) }
-  }, [ctx, setPlugins])
+    if (ctx.console) setPages(sortPages(ctx.console.pages.map(e => e[1])))
+    const listener = (pages: Page[]) => setPages(sortPages(pages))
+    ctx.on('console/page-update', listener)
+    return () => { ctx.off('console/page-update', listener) }
+  }, [ctx])
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -71,11 +67,11 @@ export default pluginWrapper(null, ({ ctx }) => {
       <Drawer variant="permanent" open={open}>
         <DrawerHeader />
         <Divider />
-        <LeftList open={open} plugins={plugins} />
+        <LeftList open={open} pages={pages} />
       </Drawer>
       <Box sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Right plugins={plugins} />
+        <Right pages={pages} />
       </Box>
     </Box>
   )

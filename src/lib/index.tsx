@@ -1,15 +1,12 @@
-import React from 'react'
+import { Context } from 'cordis'
+import { ReactElement } from 'react'
 
-interface ConsolePlugin {
-  id?: string
+export interface Page<C extends Context = Context> {
+  id: string
   name: string
-  icon: React.ReactNode
   path: string
-  content: React.ReactNode
-  order?: number
-  using?: string[]
+  icon: ReactElement
+  content: ReactElement
 }
 
 export * from './context'
-
-export { ConsolePlugin }
