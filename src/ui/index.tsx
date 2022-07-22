@@ -4,10 +4,10 @@ import * as Cordis from 'cordis'
 import App from './app'
 import { ConsoleContext } from '../lib/context'
 import { BrowserRouter } from 'react-router-dom'
-import * as internal from '../internal'
+import * as console from '../console'
 
 const ctx = new Cordis.Context()
-ctx.plugin(internal)
+ctx.plugin(console)
 
 const app = document.getElementById('app')
 ReactDOM

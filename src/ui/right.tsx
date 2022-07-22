@@ -1,5 +1,4 @@
 import React from 'react'
-import { ReactElement } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Page } from '../lib'
 import { PluginComponent } from '../lib/context'

@@ -1,4 +1,4 @@
-import { Context, Fork } from 'cordis'
+import { Context } from 'cordis'
 import React, { PropsWithChildren, useContext, useEffect, useState } from 'react'
 
 const ConsoleContext = React.createContext<Context>(null)

@@ -1,4 +1,4 @@
-import { Context, Service, Plugin } from 'cordis'
+import { Context, Service } from 'cordis'
 import { Page } from '../lib'
 
 declare module 'cordis' {
@@ -41,7 +41,7 @@ export class Console extends Service {
   }
 }
 
-export const name = 'internal'
+export const name = 'console'
 
 export function apply(ctx: Context) {
   ctx.console = new Console(ctx)
