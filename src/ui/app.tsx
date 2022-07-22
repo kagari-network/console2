@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { styled } from '@mui/material/styles'
 import {
   Box, Drawer as MuiDrawer, AppBar as MuiAppBar,
-  Toolbar, Typography, IconButton, Divider,
+  Toolbar, Typography, IconButton, Divider, Snackbar,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import { styledMixin, transition, useBoolean } from './utils'
@@ -10,6 +10,7 @@ import LeftList from './left-list'
 import Right from './right'
 import { pluginWrapper } from '../lib/context'
 import { Page } from '../lib'
+import { useImmer } from 'use-immer'
 
 const drawerWidth = 240;
 
@@ -38,21 +39,30 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar
 }))
 
-const sortPages = (plugins: Page[]) =>
-  plugins.map(page => ({ order: Infinity, ...page }))
+const sortPages = (pages: Page[]) =>
+  pages.map(page => ({ order: Infinity, ...page }))
     .sort((a, b) => a.order - b.order)
 
 export default pluginWrapper(({ ctx }) => {
   const [pages, setPages] = useState([])
   const [open, setOpen] = useBoolean()
+  const [snacks, setSnacks] = useImmer<[string, boolean][]>([])
 
   useEffect(() => {
-    // sortPlugins will create new array so Object.is returns false
+    // sortPages will create new array so Object.is returns false
     if (ctx.console) setPages(sortPages(ctx.console.pages))
     const listener = (pages: Page[]) => setPages(sortPages(pages))
     ctx.on('console/page-update', listener)
     return () => { ctx.off('console/page-update', listener) }
   }, [ctx])
+
+  useEffect(() => {
+    const listener = (message: string) => setSnacks(draft => {
+      draft.push([message, true])
+    })
+    ctx.on('console/snack', listener)
+    return () => { ctx.off('console/snack', listener) }
+  })
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -73,6 +83,16 @@ export default pluginWrapper(({ ctx }) => {
         <DrawerHeader />
         <Right pages={pages} />
       </Box>
+      {snacks.map((snack, index) => {
+        return <Snackbar
+          key={index} autoHideDuration={5000}
+          message={snack[0]} open={snack[1]}
+          onClose={() => {
+            setSnacks(draft => {
+              draft[index][1] = false
+            })}
+          }/>
+      })}
     </Box>
   )
 })

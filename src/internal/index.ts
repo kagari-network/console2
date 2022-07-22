@@ -5,21 +5,19 @@ declare module 'cordis' {
   interface Context {
     console: Console
   }
-  interface Events<C extends Context = Context> {
+  interface Events {
     'console/page-add'(page: Page): void
     'console/page-remove'(page: Page): void
     'console/page-update'(pages: Page[]): void
+    'console/snack'(message: string): void
   }
 }
 
-export class Console {
-  static readonly methods = ['page']
+export class Console extends Service {
   _pages: [Context, Page][] = []
 
-  constructor(private ctx: Context) {}
-
-  protected get caller() {
-    return this[Context.current]
+  constructor(ctx: Context) {
+    super(ctx, 'console')
   }
 
   get pages() {
@@ -37,11 +35,14 @@ export class Console {
       return result
     }
   }
+
+  snack(message: string) {
+    this.ctx.emit('console/snack', message)
+  }
 }
 
 export const name = 'internal'
 
 export function apply(ctx: Context) {
-  Context.service('console', Console)
   ctx.console = new Console(ctx)
 }
