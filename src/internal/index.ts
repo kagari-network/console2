@@ -6,15 +6,15 @@ declare module 'cordis' {
     console: Console
   }
   interface Events<C extends Context = Context> {
-    'console/page-add'(page: Page<C>): void
-    'console/page-remove'(page: Page<C>): void
-    'console/page-update'(pages: Page<C>[]): void
+    'console/page-add'(page: Page): void
+    'console/page-remove'(page: Page): void
+    'console/page-update'(pages: Page[]): void
   }
 }
 
 export class Console {
   static readonly methods = ['page']
-  pages: [Context, Page][] = []
+  _pages: [Context, Page][] = []
 
   constructor(private ctx: Context) {}
 
@@ -22,14 +22,18 @@ export class Console {
     return this[Context.current]
   }
 
+  get pages() {
+    return this._pages.map(page => page[1])
+  }
+
   page(page: Page): () => boolean {
     this.ctx.emit('console/page-add', page)
-    const dispose = this.caller.lifecycle.register('page', this.pages, page)
-    this.ctx.emit('console/page-update', this.pages.map(e => e[1]))
+    const dispose = this.caller.lifecycle.register('page', this._pages, page)
+    this.ctx.emit('console/page-update', this.pages)
     return () => {
       this.ctx.emit('console/page-remove', page)
       const result = dispose()
-      this.ctx.emit('console/page-update', this.pages.map(e => e[1]))
+      this.ctx.emit('console/page-update', this.pages)
       return result
     }
   }

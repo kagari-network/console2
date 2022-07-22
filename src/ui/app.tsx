@@ -48,7 +48,7 @@ export default pluginWrapper(({ ctx }) => {
 
   useEffect(() => {
     // sortPlugins will create new array so Object.is returns false
-    if (ctx.console) setPages(sortPages(ctx.console.pages.map(e => e[1])))
+    if (ctx.console) setPages(sortPages(ctx.console.pages))
     const listener = (pages: Page[]) => setPages(sortPages(pages))
     ctx.on('console/page-update', listener)
     return () => { ctx.off('console/page-update', listener) }
