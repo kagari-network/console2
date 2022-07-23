@@ -30,7 +30,7 @@ export interface WsEvent<T extends WsEvents.Events = WsEvents.Events> {
 
 export class WsApi {
     socket: WebSocket
-    responseHook: Record<string, [Function, Function]>
+    responseHook: Record<string, Function>
 
     constructor(private ctx: Context) {}
 
@@ -41,20 +41,19 @@ export class WsApi {
             const data = JSON.parse(message.data)
             if (!data.type) return
             if (data.type === 'internal/message-reply') {
-                const [resolve] = this.responseHook[data.id]
-                resolve(data.data)
+                this.responseHook[data.id]?.(data.data)
                 return
             }
             this.ctx.emit('console/message', data)
         }
     }
 
-    send<T extends WsEvents.Events, U extends WsEvents.Events>(message: WsEvent<T>): Promise<WsEvent<U>> {
+    send(message: WsEvent): Promise<any> {
         const id = v4()
         message.id = id
         this.socket.send(JSON.stringify(message))
         return new Promise((resolve, reject) => {
-            this.responseHook[id] = [resolve, reject]
+            this.responseHook[id] = resolve
             setTimeout(() => {
                 delete this.responseHook[id]
                 reject(new Error('timeout'))

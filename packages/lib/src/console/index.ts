@@ -1,6 +1,6 @@
 import { Context, Service, Fork, Plugin } from 'cordis'
 import { Page } from '..'
-import { HttpApi, WsApi } from '../api'
+import { HttpApi, WsApi, WsEvent } from '../api'
 import { WsEvents } from '..'
 
 declare module 'cordis' {
@@ -63,6 +63,10 @@ export class Console extends Service {
   on<T extends WsEvents.Events>(type: T, listener: WsEventListener<T>) {
     return this.caller.lifecycle.register('wsEvent', this._wsEvents, [type, listener])
   }
+
+  send(message: WsEvent) {
+    return this.ws.send(message)
+  }
 }
 
 export const name = 'console'
@@ -83,6 +87,11 @@ export function apply(ctx: Context) {
       .filter(e => e[1][0] === data.type)
       .forEach(([, [, callback]]) => {
         const result = callback(data.data)
+        if (!result) return
+        ctx.console.send({
+          type: 'internal/message-reply',
+          data: result
+        })
       })
   })
 
@@ -99,14 +108,16 @@ export function apply(ctx: Context) {
       const dispose = ctx.lifecycle.register('plugin', plugins, [id, fork])
       const forkDispose = fork.dispose
       fork.dispose = () => forkDispose() && dispose()
+      return true
     } catch(e) {
-      ctx.console.snack('插件加载失败' + String(e))
+      ctx.console.snack('插件加载失败: ' + String(e))
     }
+    return false
   })
 
   ctx.console.on('internal/plugin-remove', ({ id }) => {
     const plugin = plugins.find(([, [pid]]) => pid === id)
     if (!plugin) return
-    plugin[1][1].dispose()
+    return plugin[1][1].dispose()
   })
 }
