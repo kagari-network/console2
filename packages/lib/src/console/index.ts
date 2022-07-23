@@ -1,5 +1,7 @@
 import { Context, Service } from 'cordis'
 import { Page } from '..'
+import { HttpApi } from '../api/http'
+import { WsApi } from '../api/ws'
 
 declare module 'cordis' {
   interface Context {
@@ -15,9 +17,16 @@ declare module 'cordis' {
 
 export class Console extends Service {
   _pages: [Context, Page][] = []
+  ws: WsApi
+  http: HttpApi
 
   constructor(ctx: Context) {
     super(ctx, 'console')
+  }
+
+  protected start() {
+    this.ws = new WsApi(this.ctx)
+    this.http = new HttpApi()
   }
 
   get pages() {

@@ -13,7 +13,6 @@
   ],
   "scripts": {
     "start": "parcel",
-    "compile": ":",
     "build": "parcel build"
   },
   "dependencies": {

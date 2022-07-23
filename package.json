@@ -2,11 +2,15 @@
     "name": "console2",
     "private": true,
     "scripts": {
-        "compile": "yarn workspaces run compile",
-        "build": "yarn workspaces run build",
-        "start": "yarn compile && yarn workspace @console2/console start"
+        "build": "yarn yakumo tsc && yarn workspace @console2/console build",
+        "start": "yarn yakumo tsc && yarn workspace @console2/console start"
     },
     "workspaces": [
         "packages/*"
-    ]
+    ],
+    "devDependencies": {
+        "typescript": "^4.7.4",
+        "yakumo": "^0.2.8",
+        "yakumo-tsc": "^0.2.5"
+    }
 }
