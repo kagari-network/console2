@@ -1,8 +1,11 @@
 import { Context } from 'cordis'
 import request from 'superagent'
-import { Status } from '.'
 
 const API_PREFIX = 'http://127.0.0.1:8080/v1'
+
+export interface Status {
+    status: 'online' | 'downgraded'
+}
 
 export type QueryPromise<T> = (params?: object) => Promise<QueryResponse<T>>
 

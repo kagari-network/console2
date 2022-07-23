@@ -1,5 +1,5 @@
 import { Context } from 'cordis'
-import { WsEvents } from '.'
+import { ConsolePlugin } from '../console'
 import { v4 } from 'uuid'
 
 const URL = 'ws://127.0.0.1:8080'
@@ -8,6 +8,18 @@ declare module 'cordis' {
     interface Events<C extends Context = Context> {
         'console/message'(data: WsEvent): void
     }
+}
+
+// TODO: heartbeat
+export interface WsEvents {
+    'internal/plugin-add': ConsolePlugin
+    'internal/plugin-remove': { id: string }
+    'internal/stop': { reason: string }
+    'internal/message-reply': any
+}
+
+export namespace WsEvents {
+    export type Events = keyof WsEvents
 }
 
 export interface WsEvent<T extends WsEvents.Events = WsEvents.Events> {

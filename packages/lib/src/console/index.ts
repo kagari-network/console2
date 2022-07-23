@@ -15,6 +15,11 @@ declare module 'cordis' {
   }
 }
 
+export interface ConsolePlugin {
+    id: string
+    file: string
+}
+
 type WsEventListener<T extends WsEvents.Events> = (data: WsEvents[T]) => any
 type EventListenerTruple<T extends WsEvents.Events = WsEvents.Events> = [T, WsEventListener<T>] 
 
@@ -76,7 +81,9 @@ export function apply(ctx: Context) {
   ctx.on('console/message', data => {
     ctx.console._wsEvents
       .filter(e => e[1][0] === data.type)
-      .forEach(([, [, callback]]) => callback(data.data))
+      .forEach(([, [, callback]]) => {
+        const result = callback(data.data)
+      })
   })
 
   ctx.console.on('internal/stop', data => {
