@@ -2,18 +2,22 @@ export interface Status {
     status: 'online' | 'downgraded'
 }
 
-export interface Plugin {
+export interface ConsolePlugin {
     id: string
-    name: string
     file: string
 }
 
 // TODO: heartbeat
 export interface WsEvents {
-    'internal/plugin': Plugin
-    'internal/stop': void
+    'internal/plugin-add': ConsolePlugin
+    'internal/plugin-remove': { id: string }
+    'internal/stop': { reason: string }
     'internal/message-reply': any
 }
 
-export * as http from './http'
-export * as ws from './ws'
+export namespace WsEvents {
+    export type Events = keyof WsEvents
+}
+
+export * from './http'
+export * from './ws'

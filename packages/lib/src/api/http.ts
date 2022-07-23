@@ -7,7 +7,6 @@ const API_PREFIX = 'http://127.0.0.1:8080/v1'
 export type QueryPromise<T> = (params?: object) => Promise<QueryResponse<T>>
 
 export interface QueryResponse<T> {
-    code: number
     message?: string
     data?: T
 }

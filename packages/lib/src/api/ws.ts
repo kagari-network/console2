@@ -6,11 +6,11 @@ const URL = 'ws://127.0.0.1:8080'
 
 declare module 'cordis' {
     interface Events<C extends Context = Context> {
-        'console/message'<T extends WsEvents[keyof WsEvents]>(data: T): void
+        'console/message'(data: WsEvent): void
     }
 }
 
-export interface WsEvent<T extends keyof WsEvents> {
+export interface WsEvent<T extends WsEvents.Events = WsEvents.Events> {
     id?: string
     type: T
     data: WsEvents[T]
@@ -19,7 +19,11 @@ export interface WsEvent<T extends keyof WsEvents> {
 export class WsApi {
     socket: WebSocket
     responseHook: Record<string, [Function, Function]>
-    constructor(ctx: Context) {
+
+    constructor(private ctx: Context) {}
+
+    start() {
+        if (this.socket) return
         this.socket = new WebSocket(URL)
         this.socket.onmessage = message => {
             const data = JSON.parse(message.data)
@@ -29,11 +33,11 @@ export class WsApi {
                 resolve(data.data)
                 return
             }
-            ctx.emit('console/message', data)
+            this.ctx.emit('console/message', data)
         }
     }
 
-    send<T extends keyof WsEvents, U extends keyof WsEvents>(message: WsEvent<T>): Promise<WsEvent<U>> {
+    send<T extends WsEvents.Events, U extends WsEvents.Events>(message: WsEvent<T>): Promise<WsEvent<U>> {
         const id = v4()
         message.id = id
         this.socket.send(JSON.stringify(message))

@@ -3098,6 +3098,11 @@ xxhash-wasm@^0.4.2:
   resolved "https://registry.yarnpkg.com/xxhash-wasm/-/xxhash-wasm-0.4.2.tgz#752398c131a4dd407b5132ba62ad372029be6f79"
   integrity sha512-/eyHVRJQCirEkSZ1agRSCwriMhwlyUcFkXD5TPVSLP+IPzjsqMVzZwdoczLp1SoQU0R3dxz1RpIK+4YNQbCVOA==
 
+yakumo-esbuild@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/yakumo-esbuild/-/yakumo-esbuild-0.2.4.tgz#4aaeb754946262d95ffe9406f6942760b2a1e309"
+  integrity sha512-mhewOZk9uhIClY/5uqnWoDxv7qpQiU1MT7kakX/5ULZcVpsVC1i0mHoWl1qpGDlRvfCKv8jzR9T9NHaezGXOyw==
+
 yakumo-tsc@^0.2.5:
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/yakumo-tsc/-/yakumo-tsc-0.2.5.tgz#ce815f592e337295c8066ee2154fdffadcab0abc"
