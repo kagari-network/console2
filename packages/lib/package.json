@@ -6,9 +6,6 @@
   "files": [
     "lib"
   ],
-  "scripts": {
-    "build": "tsc"
-  },
   "devDependencies": {
     "@types/react": "^18.0.15",
     "@types/superagent": "^4.1.15",

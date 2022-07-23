@@ -1,0 +1,17 @@
+{
+    "name": "@console2/hello",
+    "version": "0.0.1",
+    "license": "MIT",
+    "main": "lib/index.js",
+    "module": "lib/main.js",
+    "files": [
+        "lib"
+    ],
+    "peerDependencies": {
+        "@console2/lib": "^0.0.1",
+        "react": "^18.2.0"
+    },
+    "dependencies": {
+        "@mui/icons-material": "^5.8.4"
+    }
+}

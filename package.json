@@ -1,17 +1,23 @@
 {
-    "name": "console2",
-    "private": true,
-    "scripts": {
-        "build": "yarn yakumo esbuild && yarn yakumo tsc && yarn workspace @console2/console build",
-        "start": "yarn yakumo esbuild && yarn yakumo tsc && yarn workspace @console2/console start"
-    },
-    "workspaces": [
-        "packages/*"
-    ],
-    "devDependencies": {
-        "typescript": "^4.7.4",
-        "yakumo": "^0.2.8",
-        "yakumo-esbuild": "^0.2.4",
-        "yakumo-tsc": "^0.2.5"
-    }
+  "name": "console2",
+  "private": true,
+  "scripts": {
+    "build": "yarn yakumo esbuild && yarn yakumo tsc && yarn workspace @console2/console build",
+    "start": "yarn yakumo esbuild && yarn yakumo tsc && yarn workspace @console2/console start"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "esbuild-register": "^3.3.3",
+    "typescript": "^4.7.4",
+    "yakumo": "^0.2.8",
+    "yakumo-esbuild": "^0.2.4",
+    "yakumo-tsc": "^0.2.5"
+  },
+  "yakumo": {
+    "require": [
+      "esbuild-register"
+    ]
+  }
 }

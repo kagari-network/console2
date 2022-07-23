@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "license": "MIT",
+  "main": "lib/index.js",
+  "module": "lib/main.js",
   "source": "src/index.html",
   "bin": {
     "console": "./serve.js"
@@ -27,9 +29,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
-    "use-immer": "^0.7.0"
-  },
-  "peerDependencies": {
+    "use-immer": "^0.7.0",
     "@console2/lib": "^0.0.1"
   },
   "devDependencies": {

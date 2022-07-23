@@ -43,7 +43,6 @@ export class Console extends Service {
     this.ws.start()
   }
 
-  // TODO: disposable
   page(page: Page): () => boolean {
     this.ctx.emit('console/page-add', page)
     const dispose = this.caller.lifecycle.register('page', this._pages, page)

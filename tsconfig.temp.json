@@ -3,6 +3,12 @@
   "references": [
     {
       "path": "./packages/lib"
+    },
+    {
+      "path": "./packages/hello"
+    },
+    {
+      "path": "./packages/console"
     }
   ]
 }
