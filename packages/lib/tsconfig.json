@@ -8,7 +8,7 @@
         ],
         "skipLibCheck": true,
         "jsx": "react",
-        "module": "UMD",
+        "module": "CommonJS",
         "moduleResolution": "node",
         "declaration": true,
         "esModuleInterop": true,

@@ -2,7 +2,7 @@ import { Context } from 'cordis'
 import { WsEvents } from '.'
 import { v4 } from 'uuid'
 
-const URL = 'ws://127.0.0.1'
+const URL = 'ws://127.0.0.1:8080'
 
 declare module 'cordis' {
     interface Events<C extends Context = Context> {

@@ -15,4 +15,13 @@ export const useBoolean = (initialState = false) => {
   return [state, () => setState(state => !state)] as const
 }
 
+export function nextTick() {
+    return new Promise(resolve => setTimeout(resolve, 0))
+}
+
+export async function nextTwoTick() {
+    await nextTick()
+    await nextTick()
+}
+
 export { Props }

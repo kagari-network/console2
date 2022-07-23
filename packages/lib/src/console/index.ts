@@ -22,11 +22,8 @@ export class Console extends Service {
 
   constructor(ctx: Context) {
     super(ctx, 'console')
-  }
-
-  protected start() {
     this.ws = new WsApi(this.ctx)
-    this.http = new HttpApi()
+    this.http = new HttpApi(this.ctx)
   }
 
   get pages() {
@@ -54,4 +51,7 @@ export const name = 'console'
 
 export function apply(ctx: Context) {
   ctx.console = new Console(ctx)
+  ctx.on('ready', async () => {
+    const status = await ctx.console.http.getStatus()
+  })
 }
